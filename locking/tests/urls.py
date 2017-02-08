@@ -1,11 +1,9 @@
-from django.conf.urls import patterns
+from django.conf.urls import url
 from django.conf import settings
 from django.contrib import admin
 
-admin.autodiscover()
-
-urlpatterns = patterns('',
-    (r'^ajax/admin/', include('locking.urls')),
-    (r'^admin/', include(admin.site.urls)),
-    (r'', include('staticfiles.urls')),
-)
+urlpatterns = [
+    url(r'^ajax/admin/', include('locking.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'', include('staticfiles.urls')),
+]
