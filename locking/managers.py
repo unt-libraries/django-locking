@@ -15,11 +15,11 @@ def point_of_timeout():
     return datetime.datetime.now() - delta
 
 class LockedManager(Manager):
-    def get_query_set(self):
+    def get_queryset(self):
         timeout = point_of_timeout()
-        return super(LockedManager, self).get_query_set().filter(_locked_at__gt=timeout, _locked_at__isnull=False)
+        return super(LockedManager, self).get_queryset().filter(_locked_at__gt=timeout, _locked_at__isnull=False)
 
 class UnlockedManager(Manager):
-    def get_query_set(self):
+    def get_queryset(self):
         timeout = point_of_timeout()
-        return super(UnlockedManager, self).get_query_set().filter(Q(_locked_at__lte=timeout) | Q(_locked_at__isnull=True))
+        return super(UnlockedManager, self).get_queryset().filter(Q(_locked_at__lte=timeout) | Q(_locked_at__isnull=True))
