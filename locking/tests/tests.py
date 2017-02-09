@@ -169,7 +169,7 @@ class BrowserTestCase(TestCase):
         # client setup
         self.c = Client()
         self.c.login(**users[0])
-        story_args = [story._meta.app_label, story._meta.module_name, story.pk]
+        story_args = [story._meta.app_label, story._meta.model_name, story.pk]
         # refactor: http://docs.djangoproject.com/en/dev/topics/testing/#urlconf-configuration
         # is probably a smarter way to go about this
         self.urls = {
@@ -213,7 +213,7 @@ class BrowserTestCase(TestCase):
         # don't make a resource available to lock models that don't 
         # have locking enabled -- this tests the is_lockable decorator
         obj = testmodels.Unlockable.objects.get(pk=1)
-        args = [obj._meta.app_label, obj._meta.module_name, obj.pk]
+        args = [obj._meta.app_label, obj._meta.model_name, obj.pk]
         url = reverse(views.lock, args=args)
         res = self.c.get(url)        
         self.assertEquals(res.status_code, 404)              
