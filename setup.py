@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 version = '0.3.0'
 README = os.path.join(os.path.dirname(__file__), 'README')
 long_description = open(README).read()
-setup(name='django-locking',
+setup(name='locking',
       version=version,
       description=("Prevents users from doing concurrent editing in Django. Works out of the box in the admin interface, or you can integrate it with your own apps using a public API."),
       long_description=long_description,
