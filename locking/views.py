@@ -1,4 +1,4 @@
-import simplejson
+import json
 
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
@@ -52,7 +52,7 @@ def unlock(request, app, model, id):
 def is_locked(request, app, model, id):    
     obj = utils.gather_lockable_models()[app][model].objects.get(pk=id)
 
-    response = simplejson.dumps({
+    response = json.dumps({
         "is_active": obj.is_locked,
         "for_user": getattr(obj.locked_by, 'username', None),
         "applies": obj.lock_applies_to(request.user),
@@ -61,7 +61,7 @@ def is_locked(request, app, model, id):
 
 @log
 def js_variables(request):
-    response = "var locking = " + simplejson.dumps({
+    response = "var locking = " + json.dumps({
         'base_url': "/".join(request.path.split('/')[:-1]),
         'timeout': LOCK_TIMEOUT,
         })
