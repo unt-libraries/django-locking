@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from django.views.i18n import javascript_catalog
+from django.views.i18n import JavaScriptCatalog
 
 from locking.views import lock, unlock, is_locked, js_variables
 
@@ -11,5 +11,5 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r'jsi18n/$', javascript_catalog, kwargs={'packages': 'locking'}),
+    url(r'jsi18n/$', JavaScriptCatalog.as_view(packages=['locking'])),
 ]
