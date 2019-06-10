@@ -1,15 +1,12 @@
 # encoding: utf-8
 
-from datetime import datetime
 
 from django.contrib import admin
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
 from django.utils.html import format_html
 from django import forms
 
-from locking import LOCK_TIMEOUT, views
 
 class LockableAdmin(admin.ModelAdmin):
     @property
