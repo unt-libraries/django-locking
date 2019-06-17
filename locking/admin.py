@@ -3,7 +3,7 @@
 
 from django.contrib import admin
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import format_html
 from django import forms
 
@@ -28,7 +28,6 @@ class LockableAdmin(admin.ModelAdmin):
         js = (
             'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js', 
             'locking/js/jquery.url.packed.js',
-            #reverse('django.views.i18n.javascript_catalog'),
             reverse('locking_variables'),
             'locking/js/admin.locking.js',
             )
