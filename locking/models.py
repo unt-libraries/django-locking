@@ -34,7 +34,8 @@ class LockableModel(models.Model):
         db_column='locked_by',
         related_name="working_on_%(class)s",
         null=True,
-        editable=False)
+        editable=False,
+        on_delete=models.CASCADE)
     _hard_lock = models.BooleanField(db_column='hard_lock', default=False, editable=False)
     
     # We don't want end-developers to manipulate database fields directly, 

@@ -1,14 +1,12 @@
 # encoding: utf-8
 
-from datetime import datetime
 
 from django.contrib import admin
 from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
+from django.urls import reverse
+from django.utils.html import format_html
 from django import forms
 
-from locking import LOCK_TIMEOUT, views
 
 class LockableAdmin(admin.ModelAdmin):
     @property
@@ -30,7 +28,6 @@ class LockableAdmin(admin.ModelAdmin):
         js = (
             'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js', 
             'locking/js/jquery.url.packed.js',
-            #reverse('django.views.i18n.javascript_catalog'),
             reverse('locking_variables'),
             'locking/js/admin.locking.js',
             )
@@ -53,21 +50,26 @@ class LockableAdmin(admin.ModelAdmin):
         if obj.is_locked:
             seconds_remaining = obj.lock_seconds_remaining
             minutes_remaining = seconds_remaining/60
-            locked_until = _("Still locked for %s minutes by %s") \
-                % (minutes_remaining, obj.locked_by)
-            if self.request.user == obj.locked_by: 
-                locked_until_self = _("You have a lock on this article for %s more minutes.") \
-                    % (minutes_remaining)
-                return '<img src="%slocking/img/page_edit.png" title="%s" />' \
-                    % (settings.MEDIA_URL, locked_until_self)
+            locked_until = "Still locked for {} minutes by {}".format(
+                minutes_remaining, obj.locked_by)
+            if self.request.user == obj.locked_by:
+                locked_until_self = "You have a lock on this article for {} more minutes.".format(
+                    minutes_remaining)
+                return format_html(
+                    '<img src="{}locking/img/page_edit.png" title="{}" />',
+                    settings.MEDIA_URL,
+                    locked_until_self,
+                )
             else:
-                locked_until = _("Still locked for %s minutes by %s") \
-                    % (minutes_remaining, obj.locked_by)
-                return '<img src="%slocking/img/lock.png" title="%s" />' \
-                    % (settings.MEDIA_URL, locked_until)
+                locked_until = "Still locked for {} minutes by {}".format(
+                    minutes_remaining, obj.locked_by)
+                return format_html(
+                    '<img src="{}locking/img/lock.png" title="{}" />',
+                    settings.MEDIA_URL,
+                    locked_until,
+                )
 
         else:
             return ''
-    lock.allow_tags = True
     
     list_display = ('__str__', 'lock')

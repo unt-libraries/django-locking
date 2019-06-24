@@ -2,7 +2,7 @@
 
 from django.conf import settings
 from django.core.management import call_command
-from django.db.models import loading
+from django.apps import apps
 from django import test
 
 class TestCase(test.TestCase):
@@ -13,7 +13,7 @@ class TestCase(test.TestCase):
         self._original_installed_apps = list(settings.INSTALLED_APPS)
         for app in self.apps:
             settings.INSTALLED_APPS.append(app)
-        loading.cache.loaded = False
+        apps.loaded = False
         call_command('syncdb', interactive=False, verbosity=0)
         # Call the original method that does the fixtures etc.
         super(TestCase, self)._pre_setup()
@@ -23,4 +23,4 @@ class TestCase(test.TestCase):
         super(TestCase, self)._post_teardown()
         # Restore the settings.
         settings.INSTALLED_APPS = self._original_installed_apps
-        loading.cache.loaded = False
+        apps.loaded = False
