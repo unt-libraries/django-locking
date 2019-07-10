@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth import models as auth
 
 from locking import LOCK_TIMEOUT, logger
-import managers
+from . import managers
 
 class ObjectLockedError(IOError):
     pass
