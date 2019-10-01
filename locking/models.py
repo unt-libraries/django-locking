@@ -71,7 +71,8 @@ class LockableModel(models.Model):
         Works by calculating if the last lock (self.locked_at) has timed out or not.
         """
         if isinstance(self.locked_at, datetime):
-            if (datetime.today() - self.locked_at).seconds < LOCK_TIMEOUT:
+            timedelta_since_lock = datetime.today() - self.locked_at
+            if timedelta_since_lock.days == 0 and timedelta_since_lock.seconds < LOCK_TIMEOUT:
                 return True
             else:
                 return False
