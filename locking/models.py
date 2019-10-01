@@ -72,7 +72,7 @@ class LockableModel(models.Model):
         """
         if isinstance(self.locked_at, datetime):
             timedelta_since_lock = datetime.today() - self.locked_at
-            if timedelta_since_lock.days == 0 and timedelta_since_lock.seconds < LOCK_TIMEOUT:
+            if timedelta_since_lock.total_seconds() < LOCK_TIMEOUT:
                 return True
             else:
                 return False
